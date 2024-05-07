@@ -2,23 +2,6 @@
 #include <unistd.h>
 #include "pipex.h"
 
-int argc_handler(int argc)
-{
-	int r;
-
-	r = 0;
-	if (argc <= 1 )
-		printf("Error: Needs Args.\n");
-	else if (argc / 2 != 0)
-		printf("Error: Wrong Arg counts.");
-	else
-		r = 1;
-	if (!r)
-		exit(0);
-	else
-		return (argc - 1);
-}
-
 void	clean_paths(char **res, int i)
 {
 	while (res[i])
@@ -28,30 +11,52 @@ void	clean_paths(char **res, int i)
 
 int main(int argc, char *argv[], char **env)
 {
-    // argc_handler(argc);
-    // argv의 0번째 인자는 실행파일 이름이므로 1부터 시작
-    // argv[1] = infile, argv[2] = cmd1, argv[3] = cmd2, argv[4] = outfile
     char	*path;
 	char	*temp;
-	char	**res;
+	char	**paths;
+	char	**file_names;
+	char	**commands;
 	int		i;
 
-	i = 0;
+	argc_handler(argc);
 	while (*env)
 	{
 		if (ft_strncmp("Path=", *env, 5) == 0)
 		{
-			path = *env;
+			path = ft_dup(*env);
 			break;
 		}
-		*env++;
+		env++;
 	}
 	temp = (char *)malloc(sizeof(char) * (_len(path)));
+	if (!temp)
+		return (0);
 	ft_strlcpy(temp, path + 5, _len(path) - 5);
-	res = ft_split(temp , ";");
-	while (res[i])
-		printf("%s\n", res[i++]);
-	clean_paths(res, i);
+	free(path);
+	paths = ft_split(temp , ";");
+	if (!paths)
+		return (0);
+	i = 0;
+	while (paths[i])
+	{
+		printf("%s\n", ft_strjoin_free(paths[i], "\\ls"));
+		i++;
+	};
+	clean_paths(paths, i);
 	free(temp);
+	file_names = (char **)malloc(sizeof(char *) * argc + 1);
+	file_names[0] = ft_dup(argv[1]);
+	file_names[1] = NULL;
+	commands = ft_split(argv[2], " ");
+	char **temp2 = commands;
+	while (*temp2)
+	{
+		printf("%s\n", *temp2++);
+	}
+	printf("%s\n", file_names[0]);
+	clean_paths(commands, 2);
+	free(file_names[0]);
+	free(file_names[1]);
+	free(file_names);
 	return (0);
 }

@@ -14,11 +14,14 @@ size_t	_len(char *s);
 int 	count_words(const char *s, char *charset);
 int		is_split(char c, const char *charset);
 int 	find_idx(char *s, char *charset);
-int 	ft_strlcpy(char *d, const char *s, int size);
+size_t	ft_strlcpy(char *d, char *s, size_t n);
 char	**res_allocation(int size);
 char	*word_allocation(char *s, char *charset);
 char	**clean_all(char **string, int i);
 char	**ft_split(char *s, char *charset);
 int 	ft_strncmp(const char *s1, const char *s2, size_t n);
+int 	argc_handler(int argc);
+char	*ft_strjoin_free(char *s1, char *s2);
+char	*ft_dup(char *s);
 
 #endif // PIPEX_H

@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include "pipex.h"
 
 size_t _len(char *s)
 {
@@ -62,4 +63,39 @@ size_t	ft_strlcpy(char *d, char *s, size_t n)
 	}
 	d[i] = '\0';
 	return (i);
+}
+
+int argc_handler(int argc)
+{
+	int r;
+
+	r = 0;
+	if (argc <= 1 )
+		printf("Error: Needs Args.\n");
+	else if (argc / 2 - 1 != 0)
+		printf("Error: Wrong Arg counts.");
+	else
+		r = 1;
+	if (!r)
+		exit(0);
+	else
+		return (argc - 1);
+}
+
+char	*ft_dup(char *s)
+{
+	char	*res;
+	int		i;
+
+	i = 0;
+	res = (char *)malloc(sizeof(char) * (_len(s) + 1));
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }
