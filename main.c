@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <unistd.h>
 #include "pipex.h"
 
 void	clean_paths(char **res, int i)
@@ -9,54 +7,50 @@ void	clean_paths(char **res, int i)
 	free(res);
 }
 
-int main(int argc, char *argv[], char **env)
+char	**path_generator(char **env)
 {
-    char	*path;
+	char	*path;
 	char	*temp;
 	char	**paths;
-	char	**file_names;
-	char	**commands;
-	int		i;
 
-	argc_handler(argc);
 	while (*env)
 	{
-		if (ft_strncmp("Path=", *env, 5) == 0)
+		if (ft_strncmp("PATH=", *env, 5) == 0)
 		{
 			path = ft_dup(*env);
 			break;
 		}
 		env++;
 	}
-	temp = (char *)malloc(sizeof(char) * (_len(path)));
+	temp = (char *)malloc(sizeof(char) * (_len(path) + 1));
 	if (!temp)
-		return (0);
-	ft_strlcpy(temp, path + 5, _len(path) - 5);
-	free(path);
+		return (NULL);
+	ft_strlcpy(temp, path + 5, _len(path) - 5 + 1);
 	paths = ft_split(temp , ";");
-	if (!paths)
-		return (0);
-	i = 0;
-	while (paths[i])
-	{
-		printf("%s\n", ft_strjoin_free(paths[i], "\\ls"));
-		i++;
-	};
-	clean_paths(paths, i);
+	free(path);
 	free(temp);
+	return (paths);
+}
+
+char	**filename_generator(char *arg, int argc)
+{
+	char	**file_names;
+	
 	file_names = (char **)malloc(sizeof(char *) * argc + 1);
-	file_names[0] = ft_dup(argv[1]);
+	if (!file_names)
+		return (NULL);
+	file_names[0] = ft_dup(arg);
 	file_names[1] = NULL;
-	commands = ft_split(argv[2], " ");
-	char **temp2 = commands;
-	while (*temp2)
-	{
-		printf("%s\n", *temp2++);
-	}
-	printf("%s\n", file_names[0]);
-	clean_paths(commands, 2);
-	free(file_names[0]);
-	free(file_names[1]);
-	free(file_names);
+	return (file_names);
+}
+
+int	main(int argc, char *argv[], char **env)
+{
+	char	**commands;
+	char	**names;
+	int	i;
+
+	argc_handler(argc);
+	
 	return (0);
 }

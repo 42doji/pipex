@@ -12,15 +12,19 @@ int	main(int argc, char *argv[], char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		pid_t pid2;
+
 		close(pipefd[0]);
-		char *args[] = {"ls", "-la", NULL};
 		dup2(pipefd[1], STDOUT_FILENO);
-		execve("/bin/ls", args, NULL);
-		exit(EXIT_FAILURE);
+		dup2(STDIN_FILEN, pipefd[1]);
+		pid = fork();
+		if (pid == 0)
+		{
+			execve
+		}
 	}
 	else if (pid > 0)
 	{
-		char	buffer[1024];
 		int 	n;
 
 		close(pipefd[1]);
