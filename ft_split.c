@@ -1,5 +1,15 @@
 #include "pipex.h"
 
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
+}
+
 int	is_split(char c, const char *charset)
 {
 	int	i;
@@ -119,33 +129,112 @@ char** clean_all(char **string, int i)
 }
 
 
+int	has_charset(char *s, char *charset)
+{
+	while (*s)
+	{
+		if (nsplt(*s, charset))
+			return (1);
+		s++;
+	}
+	return (0);
+}
+
+char	*_replace(char *s)
+{
+	char	*head;
+	int	i;
+
+	i = 0;
+	head = s;
+	while (s && s[i])
+	{
+		if (nsplt(s[i], "\'\""))
+		{
+			s[i] = '\0';
+		}
+		i++;
+	}
+	return (head);
+}
+
+char	**ft_split_v2(char **s)
+{
+	char	*tmp;
+	char	**head;
+	head = s;
+	while (*s)
+	{
+		if (has_charset(*s, "\'\""))
+		{
+			*s = *s + 1;
+			*s = _replace(*s);
+		}
+		s++;
+	}
+	return (head);
+}
+
+char	*dup_args(char *s)
+{
+	char	*res;
+	int	i;
+	
+	i = 0;
+	res = (char*)malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!res)
+		return (NULL);
+	while (i < ft_strlen(s))
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
 char	**ft_split(char *s, char *charset, char *dcharset)
 {
 	int	i;
 	char	**res;
+	char	*args;
 
+	args = dup_args(s);
 	i = 0;
-	res = res_allocation(count_words(s, charset, dcharset));
+	res = res_allocation(count_words(args, charset, dcharset));
 	if (!res)
 		return (NULL);
-	while (*s)
+	while (*args)
 	{
-		while (*s && is_split(*s, charset))
-			s++;
-		res[i] = word_allocation(s, charset, dcharset);
+		while (*args && is_split(*args, charset))
+			args++;
+		res[i] = word_allocation(args, charset, dcharset);
 		if(!res[i])
 		{
 			res[i] = NULL;
 			break;
 		}
-		s += find_idx(s, charset, dcharset) + 1;
+		args += find_idx(args, charset, dcharset) + 1;
 		i++;
 	}
-	return (res);
+	return (ft_split_v2(res));
 }
 
+#include <stdio.h>
 
+int	main(int argc,const char *argv[])
+{
+	char **res;
 
+	printf("%s\n", argv[1]);
+	res = ft_split((char *)argv[1], " ", "\'\"");
+	while (*res)
+	{
+		printf("%s\n", *res++); 
+	}	
+}
+
+/*
 #include <stdio.h>
 int main()
 {
@@ -160,3 +249,4 @@ int main()
 	}
 	free(temp);
 }
+*/

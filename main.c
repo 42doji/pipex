@@ -26,7 +26,7 @@ char	**path_generator(char **env)
 	if (!temp)
 		return (NULL);
 	ft_strlcpy(temp, path + 5, _len(path) - 5 + 1);
-	paths = ft_split(temp , ";");
+	paths = ft_split(temp , ":", "\'");
 	free(path);
 	free(temp);
 	return (paths);
@@ -36,21 +36,27 @@ char	**filename_generator(char *arg, int argc)
 {
 	char	**file_names;
 	
-	file_names = (char **)malloc(sizeof(char *) * argc + 1);
+	file_names = (char **)malloc(sizeof(char *) * argc);
 	if (!file_names)
 		return (NULL);
-	file_names[0] = ft_dup(arg);
-	file_names[1] = NULL;
+	file_names = ft_split(arg, " ", "\'");	
 	return (file_names);
 }
 
 int	main(int argc, char *argv[], char **env)
 {
-	char	**commands;
-	char	**names;
+	char	**paths;
+	char	**args;
 	int	i;
 
-	argc_handler(argc);
+//	argc_handler(argc);
+//	paths = path_generator(env);
 	
+	printf("%s\n", argv[1]);
+	printf("%d\n", argc);
+	
+	args = filename_generator(argv[1], argc);
+	while (*args)
+		printf("%s\n", *args++);
 	return (0);
 }
