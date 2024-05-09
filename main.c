@@ -7,56 +7,32 @@ void	clean_paths(char **res, int i)
 	free(res);
 }
 
-char	**path_generator(char **env)
+char	*path_generator(char **env)
 {
 	char	*path;
 	char	*temp;
-	char	**paths;
 
 	while (*env)
 	{
 		if (ft_strncmp("PATH=", *env, 5) == 0)
 		{
-			path = ft_dup(*env);
-			break;
+			path = ft_dup(*env + 5);
+			if (!path)
+				return (NULL);
 		}
 		env++;
 	}
-	temp = (char *)malloc(sizeof(char) * (_len(path) + 1));
-	if (!temp)
-		return (NULL);
-	ft_strlcpy(temp, path + 5, _len(path) - 5 + 1);
-	paths = ft_split(temp , ":", "\'");
-	free(path);
-	free(temp);
-	return (paths);
-}
-
-char	**filename_generator(char *arg, int argc)
-{
-	char	**file_names;
-	
-	file_names = (char **)malloc(sizeof(char *) * argc);
-	if (!file_names)
-		return (NULL);
-	file_names = ft_split(arg, " ", "\'");	
-	return (file_names);
+	return (path);
 }
 
 int	main(int argc, char *argv[], char **env)
 {
-	char	**paths;
+	char	*path;
 	char	**args;
-	int	i;
+	int	count;
 
-//	argc_handler(argc);
-//	paths = path_generator(env);
+	count = argc_handler(argc, argv[1]);
+	path = path_generator(env);
 	
-	printf("%s\n", argv[1]);
-	printf("%d\n", argc);
-	
-	args = filename_generator(argv[1], argc);
-	while (*args)
-		printf("%s\n", *args++);
 	return (0);
 }

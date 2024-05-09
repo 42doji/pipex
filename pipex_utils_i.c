@@ -1,18 +1,14 @@
 #include "pipex.h"
 
-int argc_handler(int argc)
+int argc_handler(int argc, const char *filepath)
 {
-	int r;
-
-	r = 0;
-	if (argc <= 1 )
-		printf("Error: Needs Args.\n");
-	else if (argc / 2 - 1 != 0)
-		printf("Error: Wrong Arg counts.");
-	else
-		r = 1;
-	if (!r)
-		exit(0);
-	else
-		return (argc - 1);
+	if (argc <= 1)
+		exit(1);
+	else if ((argc - 1) % 2 != 0)
+		exit(1);
+	if (access(filepath, F_OK) || access(filepath, R_OK) ||
+			access(filepath, W_OK))
+		exit(1);
+	printf("%s", filepath);
+	return (argc - 1);
 }
