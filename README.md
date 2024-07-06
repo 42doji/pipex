@@ -16,6 +16,7 @@ Pipex 프로젝트는 두 개의 명령어를 파이프로 연결하여 실행�
 ### 프로그램 실행 형식
 ```sh
 ./pipex file1 cmd1 cmd2 file2
+```
 
 이 프로그램은 file1의 내용을 cmd1을 통해 처리하고, 그 결과를 cmd2로 전달하여 file2에 저장합니다.
 
@@ -30,21 +31,30 @@ cmd1과 cmd2는 각각 쉘 명령어로 실행됩니다.
 
 ```sh
 git clone https://github.com/yourusername/pipex.git
+```
+
 프로젝트 디렉토리로 이동합니다:
 
 ```sh
 cd pipex
+```
+
 Makefile을 사용하여 프로그램을 컴파일합니다:
+
 
 ```sh
 make
+```
+
 사용법
 pipex 실행:
 
 ```sh
 ./pipex file1 "cmd1" "cmd2" file2
+```
 예시:
 
 ```sh
 ./pipex infile "ls -l" "wc -l" outfile
+```
 위 명령어는 infile의 내용을 읽고, ls -l 명령어를 실행하여 그 출력을 wc -l 명령어로 전달한 후, 최종 결과를 outfile에 저장합니다.
