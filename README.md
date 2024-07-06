@@ -7,8 +7,7 @@ Pipex는 UNIX 시스템에서 파이프와 프로세스 간 통신을 이해하�
 - [기능](#기능)
 - [설치](#설치)
 - [사용법](#사용법)
-- [기여](#기여)
-- [라이선스](#라이선스)
+
 
 ## 개요
 
@@ -29,23 +28,23 @@ cmd1과 cmd2는 각각 쉘 명령어로 실행됩니다.
 설치
 이 저장소를 클론합니다:
 
-sh
+```sh
 git clone https://github.com/yourusername/pipex.git
 프로젝트 디렉토리로 이동합니다:
 
-sh
+```sh
 cd pipex
 Makefile을 사용하여 프로그램을 컴파일합니다:
 
-sh
+```sh
 make
 사용법
 pipex 실행:
 
-sh
+```sh
 ./pipex file1 "cmd1" "cmd2" file2
 예시:
 
-sh
+```sh
 ./pipex infile "ls -l" "wc -l" outfile
 위 명령어는 infile의 내용을 읽고, ls -l 명령어를 실행하여 그 출력을 wc -l 명령어로 전달한 후, 최종 결과를 outfile에 저장합니다.
